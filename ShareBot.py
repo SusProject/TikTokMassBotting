@@ -55,8 +55,8 @@ def ReadFile(filename, method):
         return content
 
 
-def SendShare(item_id):
-    global SentTotalSentShares, TotalFailedReq, DebugMode
+def SendLike(item_id):
+    global SentTotalSentLikes, TotalFailedReq, DebugMode
     platform = choice(Platforms)
     osVersion = randint(1, 12)
     DeviceType = choice(DeviceTypes)
@@ -76,17 +76,17 @@ def SendShare(item_id):
         try:
             if req.json()["status_code"] == 0:
                 impr_id = req.json()["log_pb"]["impr_id"]
-                SentTotalSentShares += 1
+                SentTotalSentLikes += 1
                 if DebugMode:
-                    print(Colorate.Horizontal(Colors.green_to_white, f"Sent Share: {SentTotalSentShares} ({impr_id})"))
+                    print(Colorate.Horizontal(Colors.green_to_white, f"Sent Share: {SentTotalSentLikes} ({impr_id})"))
                 else:
-                    print(Colorate.Horizontal(Colors.green_to_white, f"Sent Share: {SentTotalSentShares} ({impr_id})"))
+                    print(Colorate.Horizontal(Colors.green_to_white, f"Sent Share: {SentTotalSentLikes} ({impr_id})"))
                     Title(f"Thread :{str(active_count() - 1)} / Hit :{SentTotalSentShares} / Fail :{TotalFailedReq}")
             else:
                 pass
         except:
             TotalFailedReq += 1
-            Title(f"Thread :{str(active_count() - 1)} / Hit :{SentTotalSentShares} / Fail :{TotalFailedReq}")
+            Title(f"Thread :{str(active_count() - 1)} / Hit :{SentTotalSentLikes} / Fail :{TotalFailedReq}")
     except:
         pass
 
@@ -127,9 +127,9 @@ if __name__ == "__main__":
                     except:
                         pass
     else:
-        while SentTotalSentShares < int(amount):
+        while SentTotalSentLikes < int(amount):
             if active_count() <= int(NThread):
                 try:
-                    Thread(target=SendShare, args=(itemID,)).start()
+                    Thread(target=SendLike, args=(itemID,)).start()
                 except:
                     pass
